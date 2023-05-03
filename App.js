@@ -13,6 +13,7 @@ import {
 
 import TextInput from "./src/components/TextInput";
 import { View } from "react-native";
+import DisciplinaList from "./src/components/DisciplinaList";
 
 function App() {
     const [loading, setLoading] = useState(false);
@@ -64,7 +65,8 @@ function App() {
                 marginTop: 50,
             }}
         >
-            <TextInput
+            <DisciplinaList/>
+            {/* <TextInput
                 ref={textInputNameRef}
                 label="Nome"
                 variant="standard"
@@ -81,7 +83,7 @@ function App() {
                         onPress={handleOnSaveButtonPress}
                     />
                 }
-            </View>
+            </View> */}
         </Stack>
     );
 };
