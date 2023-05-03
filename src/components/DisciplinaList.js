@@ -1,5 +1,4 @@
 import React, {
-    Fragment,
     useEffect,
     useState,
 } from 'react';
@@ -11,9 +10,10 @@ import {
 import axios from 'axios';
 
 import {
-    ActivityIndicator,
     ListItem,
 } from '@react-native-material/core';
+
+import DisciplinaListFooter from './DisciplinaListFooter';
 
 export default function DisciplinaList() {
 
@@ -85,31 +85,19 @@ export default function DisciplinaList() {
         />
     );
 
-    const loadRepositories = async () => {
-        await getData();
-    };
-
     return (
-        <Fragment>
-            {!!loading &&
-                <ActivityIndicator
-                    size='large'
+        <FlatList
+            data={rows}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            onEndReached={getData}
+            onEndReachedThreshold={0.1}
+            ListFooterComponent={
+                <DisciplinaListFooter
+                    loading={loading}
                 />
             }
-            {/* {rows.map(value => (
-                <ListItem
-                    key={value.id}
-                    title={value.nome}
-                />
-            ))} */}
-            <FlatList
-                data={rows}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-                onEndReached={loadRepositories}
-                onEndReachedThreshold={0.1}
-            />
-        </Fragment>
+        />
     );
 
 }
