@@ -22,6 +22,8 @@ const ConfirmDialog = forwardRef((props, ref) => {
         yesButtonText: 'Yes',
         noButtonText: 'No',
         visible: false,
+        onYesPerformed: null,
+        onNoPerformed: null,
     });
 
     const showConfirmDialog = ({
@@ -29,6 +31,8 @@ const ConfirmDialog = forwardRef((props, ref) => {
         dialogMessage,
         yesButtonText,
         noButtonText,
+        onYesPerformed,
+        onNoPerformed,
     }) => {
         setState({
             ...state,
@@ -37,14 +41,38 @@ const ConfirmDialog = forwardRef((props, ref) => {
             yesButtonText: yesButtonText || 'Yes',
             noButtonText: noButtonText || 'No',
             visible: true,
+            onYesPerformed: onYesPerformed,
+            onNoPerformed: onNoPerformed,
         });
     };
 
-    const hideConfirmDialog = () => {
+    const hideConfirmDialog = operation => {
+        let auxOnYesPerformed = state.onYesPerformed;
+        let auxOnNoPerformed = state.onNoPerformed;
+
         setState({
             ...state,
+            dialogTitle: 'Operation confirm',
+            dialogMessage: 'Do you really want to perform this operation?',
+            yesButtonText: 'Yes',
+            noButtonText: 'No',
             visible: false,
+            onYesPerformed: null,
+            onNoPerformed: null,
         });
+
+        switch (operation) {
+            case 'Y':
+                if (!!auxOnYesPerformed) {
+                    auxOnYesPerformed();
+                }
+                break;
+            case 'N':
+                if (!!auxOnNoPerformed) {
+                    auxOnNoPerformed();
+                }
+                break;
+        }
     };
 
     useImperativeHandle(ref, () => ({
@@ -81,13 +109,13 @@ const ConfirmDialog = forwardRef((props, ref) => {
                     title={noButtonText}
                     compact
                     variant='text'
-                    onPress={() => hideConfirmDialog()}
+                    onPress={() => hideConfirmDialog('N')}
                 />
                 <Button
                     title={yesButtonText}
                     compact
                     variant='text'
-                    onPress={() => hideConfirmDialog()}
+                    onPress={() => hideConfirmDialog('Y')}
                 />
             </DialogActions>
         </Dialog>

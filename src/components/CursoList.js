@@ -69,8 +69,34 @@ export default function CursoList(props) {
         }
     };
 
-    const deleteCurso = id => {
+    const deleteCurso = async id => {
+        setState({
+            ...state,
+            loading: true, // loading global
+        });
 
+        try {
+            await axios.delete(`http://10.10.117.233:8080/api/cursos/${id}`);
+
+            setState({
+                ...state,
+                rows: state.rows.filter(value => value.id !== id),
+                count: state.count - 1,
+            });
+        } catch (error) {
+            let errorMessage = Array.isArray(error.response.data.message) ? error.response.data.message.join(', ') : error.response.data.message;
+
+            let firstLetter = errorMessage.charAt(0).toLocaleUpperCase();
+
+            errorMessage = errorMessage.slice(1);
+
+            alert(`${firstLetter}${errorMessage}.`);
+
+            setState({
+                ...state,
+                loading: false,
+            });
+        }
     };
 
     useEffect(() => {
@@ -99,7 +125,8 @@ export default function CursoList(props) {
                     )}
                     color='red'
                     onPress={() => showConfirmDialog({
-                        dialogMessage: `Do you really want to delete the course ${item.nome}?`
+                        dialogMessage: `Do you really want to delete the course ${item.nome}?`,
+                        onYesPerformed: () => deleteCurso(item.id),
                     })}
                 />
             }
