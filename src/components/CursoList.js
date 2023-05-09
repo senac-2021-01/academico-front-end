@@ -16,9 +16,9 @@ import {
     ListItem,
 } from '@react-native-material/core';
 
-import DisciplinaListFooter from './DisciplinaListFooter';
+import CursoListFooter from './CursoListFooter';
 
-export default function DisciplinaList(props) {
+export default function CursoList(props) {
 
     const [state, setState] = useState({
         loading: true,
@@ -69,6 +69,10 @@ export default function DisciplinaList(props) {
         }
     };
 
+    const deleteCurso = id => {
+
+    };
+
     useEffect(() => {
         getData();
     }, []);
@@ -114,7 +118,7 @@ export default function DisciplinaList(props) {
             onEndReached={getData}
             onEndReachedThreshold={0.1}
             ListFooterComponent={
-                <DisciplinaListFooter
+                <CursoListFooter
                     loading={loading}
                 />
             }

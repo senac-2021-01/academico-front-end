@@ -14,7 +14,7 @@ import {
 
 import TextInput from "./src/components/TextInput";
 import { View } from "react-native";
-import DisciplinaList from "./src/components/DisciplinaList";
+import CursoList from "./src/components/CursoList";
 import ConfirmDialog from "./src/components/ConfirmDialog";
 
 function App() {
@@ -77,7 +77,7 @@ function App() {
                 <ConfirmDialog
                     ref={confirmDialogRef}
                 />
-                <DisciplinaList
+                <CursoList
                     showConfirmDialog={showConfirmDialog}
                 />
                 {/* <TextInput

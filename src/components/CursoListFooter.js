@@ -8,7 +8,7 @@ import {
     ActivityIndicator,
 } from '@react-native-material/core';
 
-export default function DisciplinaListFooter(props) {
+export default function CursoListFooter(props) {
 
     const {
         loading
