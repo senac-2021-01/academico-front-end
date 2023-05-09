@@ -9,11 +9,13 @@ import {
     Stack,
     Button,
     ActivityIndicator,
+    Provider,
 } from "@react-native-material/core";
 
 import TextInput from "./src/components/TextInput";
 import { View } from "react-native";
 import DisciplinaList from "./src/components/DisciplinaList";
+import ConfirmDialog from "./src/components/ConfirmDialog";
 
 function App() {
     const [loading, setLoading] = useState(false);
@@ -21,8 +23,12 @@ function App() {
     const textInputNameRef = createRef();
     const textInputWorkloadRef = createRef();
 
+    const confirmDialogRef = createRef();
+
     const getTextInputNameRef = () => textInputNameRef.current;
     const getTextInputWorkloadRef = () => textInputWorkloadRef.current;
+
+    const getConfirmDialogRef = () => confirmDialogRef.current;
 
     const handleOnSaveButtonPress = async () => {
         const auxTextInputNameRef = getTextInputNameRef();
@@ -57,16 +63,24 @@ function App() {
         }
     };
 
+    const showConfirmDialog = dialogOptions => getConfirmDialogRef().showConfirmDialog(dialogOptions || {});
+
     return (
-        <Stack
-            spacing={2}
-            style={{
-                margin: 20,
-                marginTop: 50,
-            }}
-        >
-            <DisciplinaList/>
-            {/* <TextInput
+        <Provider>
+            <Stack
+                spacing={2}
+                style={{
+                    margin: 20,
+                    marginTop: 50,
+                }}
+            >
+                <ConfirmDialog
+                    ref={confirmDialogRef}
+                />
+                <DisciplinaList
+                    showConfirmDialog={showConfirmDialog}
+                />
+                {/* <TextInput
                 ref={textInputNameRef}
                 label="Nome"
                 variant="standard"
@@ -84,7 +98,8 @@ function App() {
                     />
                 }
             </View> */}
-        </Stack>
+            </Stack>
+        </Provider>
     );
 };
 

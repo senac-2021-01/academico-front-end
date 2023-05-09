@@ -7,20 +7,23 @@ import {
     FlatList,
 } from 'react-native';
 
+import Icon from '@expo/vector-icons/MaterialCommunityIcons';
+
 import axios from 'axios';
 
 import {
+    IconButton,
     ListItem,
 } from '@react-native-material/core';
 
 import DisciplinaListFooter from './DisciplinaListFooter';
 
-export default function DisciplinaList() {
+export default function DisciplinaList(props) {
 
     const [state, setState] = useState({
         loading: true,
         page: 1,
-        pageSize: 20,
+        pageSize: 10,
         rows: [],
         count: 0,
     });
@@ -71,6 +74,10 @@ export default function DisciplinaList() {
     }, []);
 
     const {
+        showConfirmDialog,
+    } = props;
+
+    const {
         loading,
         rows,
     } = state;
@@ -78,6 +85,20 @@ export default function DisciplinaList() {
     const renderItem = ({ item }) => (
         <ListItem
             title={item.nome}
+            trailing={
+                <IconButton
+                    icon={props => (
+                        <Icon
+                            name='trash-can'
+                            {...props}
+                        />
+                    )}
+                    color='red'
+                    onPress={() => showConfirmDialog({
+                        dialogMessage: `Do you really want to delete the course ${item.nome}?`
+                    })}
+                />
+            }
             style={{
                 padding: 60,
                 margin: 60,
