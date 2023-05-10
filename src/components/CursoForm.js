@@ -21,6 +21,7 @@ import TextInput from './TextInput';
 export default function CursoForm(props) {
 
     const {
+        cursoData,
         showCursoList,
     } = props;
 
@@ -49,17 +50,26 @@ export default function CursoForm(props) {
             setLoading(true);
 
             try {
-                await axios.post('http://10.10.117.233:8080/api/cursos', {
-                    nome: textInputNameValue,
-                    cargaHoraria: parseInt(auxTextInputWorkloadValue),
-                });
+                if (!!cursoData.id) {
+                    await axios.put(`http://10.10.117.233:8080/api/cursos/${cursoData.id}`, {
+                        nome: textInputNameValue,
+                        cargaHoraria: parseInt(auxTextInputWorkloadValue),
+                    });
 
-                alert('Curso inserido com sucesso');
+                    showCursoList();
+                } else {
+                    await axios.post('http://10.10.117.233:8080/api/cursos', {
+                        nome: textInputNameValue,
+                        cargaHoraria: parseInt(auxTextInputWorkloadValue),
+                    });
 
-                auxTextInputNameRef.setValue('');
-                auxTextInputWorkloadRef.setValue('');
+                    alert('Curso inserido com sucesso');
 
-                setLoading(false);
+                    auxTextInputNameRef.setValue('');
+                    auxTextInputWorkloadRef.setValue('');
+
+                    setLoading(false);
+                }
             } catch (error) {
                 console.error(error);
 
@@ -78,11 +88,13 @@ export default function CursoForm(props) {
         >
             <TextInput
                 ref={textInputNameRef}
+                defaultValue={cursoData.nome}
                 label='Nome'
                 variant='standard'
             />
             <TextInput
                 ref={textInputWorkloadRef}
+                defaultValue={cursoData.cargaHoraria}
                 label='Carga Horária'
                 variant='standard'
             />

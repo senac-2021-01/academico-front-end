@@ -13,6 +13,7 @@ import axios from 'axios';
 
 import {
     Button,
+    Flex,
     IconButton,
     ListItem,
 } from '@react-native-material/core';
@@ -119,19 +120,41 @@ export default function CursoList(props) {
             title={item.nome}
             secondaryText={`Carga Horária: ${item.cargaHoraria}`}
             trailing={
-                <IconButton
-                    icon={props => (
-                        <Icon
-                            name='trash-can'
-                            {...props}
-                        />
-                    )}
-                    color='red'
-                    onPress={() => showConfirmDialog({
-                        dialogMessage: `Do you really want to delete the course ${item.nome}?`,
-                        onYesPerformed: () => deleteCurso(item.id),
-                    })}
-                />
+                <Flex
+                    direction='row'
+                    justify='between'
+                    style={{
+                        marginLeft: -45,
+                    }}
+                >
+                    <IconButton
+                        icon={props => (
+                            <Icon
+                                name='pencil'
+                                {...props}
+                            />
+                        )}
+                        color='primary'
+                        onPress={() => showCursoForm({
+                            id: item.id,
+                            nome: item.nome,
+                            cargaHoraria: item.cargaHoraria.toString(),
+                        })}
+                    />
+                    <IconButton
+                        icon={props => (
+                            <Icon
+                                name='trash-can'
+                                {...props}
+                            />
+                        )}
+                        color='red'
+                        onPress={() => showConfirmDialog({
+                            dialogMessage: `Do you really want to delete the course ${item.nome}?`,
+                            onYesPerformed: () => deleteCurso(item.id),
+                        })}
+                    />
+                </Flex>
             }
             style={{
                 padding: 60,
@@ -146,7 +169,10 @@ export default function CursoList(props) {
             ListHeaderComponent={
                 <Button
                     title='Novo'
-                    onPress={() => showCursoForm()}
+                    onPress={() => showCursoForm({
+                        nome: '',
+                        cargaHoraria: '',
+                    })}
                 />
             }
             renderItem={renderItem}

@@ -9,7 +9,7 @@ import {
 } from "@react-native-material/core";
 
 const TextInput = forwardRef((props, ref) => {
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState(props.defaultValue || '');
     const [valid, setValid] = useState(true);
 
     const handleOnChangeText = text => {

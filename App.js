@@ -15,7 +15,10 @@ import CursoForm from './src/components/CursoForm';
 
 function App() {
 
-    const [currentScreen, setCurrentScreen] = useState('curso-list');
+    const [currentScreen, setCurrentScreen] = useState({
+        name: 'curso-list',
+        data: null,
+    });
 
     const confirmDialogRef = createRef();
 
@@ -23,9 +26,15 @@ function App() {
 
     const showConfirmDialog = dialogOptions => getConfirmDialogRef().showConfirmDialog(dialogOptions || {});
 
-    const showCursoForm = () => setCurrentScreen('curso-form');
+    const showCursoForm = cursoData => setCurrentScreen({
+        name: 'curso-form',
+        data: cursoData,
+    });
 
-    const showCursoList = () => setCurrentScreen('curso-list');
+    const showCursoList = () => setCurrentScreen({
+        name: 'curso-list',
+        data: null,
+    });
 
     return (
         <Provider>
@@ -39,14 +48,15 @@ function App() {
                 <ConfirmDialog
                     ref={confirmDialogRef}
                 />
-                {currentScreen === 'curso-list' &&
+                {currentScreen.name === 'curso-list' &&
                     <CursoList
                         showConfirmDialog={showConfirmDialog}
                         showCursoForm={showCursoForm}
                     />
                 }
-                {currentScreen === 'curso-form' &&
+                {currentScreen.name === 'curso-form' &&
                     <CursoForm
+                        cursoData={currentScreen.data}
                         showCursoList={showCursoList}
                     />
                 }
