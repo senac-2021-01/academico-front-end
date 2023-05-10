@@ -12,6 +12,7 @@ import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 
 import {
+    Button,
     IconButton,
     ListItem,
 } from '@react-native-material/core';
@@ -105,6 +106,7 @@ export default function CursoList(props) {
 
     const {
         showConfirmDialog,
+        showCursoForm,
     } = props;
 
     const {
@@ -115,6 +117,7 @@ export default function CursoList(props) {
     const renderItem = ({ item }) => (
         <ListItem
             title={item.nome}
+            secondaryText={`Carga Horária: ${item.cargaHoraria}`}
             trailing={
                 <IconButton
                     icon={props => (
@@ -140,6 +143,12 @@ export default function CursoList(props) {
     return (
         <FlatList
             data={rows}
+            ListHeaderComponent={
+                <Button
+                    title='Novo'
+                    onPress={() => showCursoForm()}
+                />
+            }
             renderItem={renderItem}
             keyExtractor={item => item.id}
             onEndReached={getData}

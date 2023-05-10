@@ -23,6 +23,7 @@ const TextInput = forwardRef((props, ref) => {
     const getValue = () => value;
 
     useImperativeHandle(ref, () => ({
+        setValue,
         getValue,
         setValid,
     }));
